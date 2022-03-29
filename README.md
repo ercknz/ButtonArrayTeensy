@@ -12,16 +12,16 @@
  Will attempt to randomize targets evenly.
 
 #### Buttons
- Button 1 = Center target queue button
- Button 2 = Lower Left Button
- Button 3 = Lower Right Button
- Button 4 = Center Indented Button
- Button 5 = Upper Left Button
- Button 6 = Upper Right Button
+ - Button 1 = Center target queue button
+ - Button 2 = Lower Left Button
+ - Button 3 = Lower Right Button
+ - Button 4 = Center Indented Button
+ - Button 5 = Upper Left Button
+ - Button 6 = Upper Right Button
  
 #### Targets
- Target 1 = Lower Left LED
- Target 2 = Lower Right LED
- Target 3 = Center LED
- Target 4 = Upper Left LED
- Target 5 = Upper Left LED
+ - Target 1 = Lower Left LED
+ - Target 2 = Lower Right LED
+ - Target 3 = Center LED
+ - Target 4 = Upper Left LED
+ - Target 5 = Upper Left LED
