@@ -24,4 +24,4 @@
  - Target 2 = Lower Right LED
  - Target 3 = Center LED
  - Target 4 = Upper Left LED
- - Target 5 = Upper Left LED
+ - Target 5 = Upper Right LED

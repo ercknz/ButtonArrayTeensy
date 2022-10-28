@@ -12,9 +12,12 @@ void HardwareControl::SetupPins(){
 }
 
 void HardwareControl::CheckForPress(bool duringExp){
+    // Reads state of buttons
     for (int i = 0; i < 6; i++){
         buttonStates_M[i] = digitalRead(_button_pins[i]);
     }
+
+    // Compares and registers a change in button state
     if (memcmp(buttonStates_M,lastButtonStates_M,sizeof(buttonStates_M)) != 0){
         for(int i = 0; i < 6; i++){
             if(lastButtonStates_M[i] != buttonStates_M[i]){
@@ -22,7 +25,9 @@ void HardwareControl::CheckForPress(bool duringExp){
                 break;
             }
         }
-        ButtonPress(duringExp);
+
+        // Compares button to target
+        TargetCheck(duringExp);
     }
 }
 
@@ -68,7 +73,7 @@ bool HardwareControl::GetReady(){
     return readyForNext_M && !targetAvailable_M;
 }
 
-void HardwareControl::ButtonPress(bool duringExp){
+void HardwareControl::TargetCheck(bool duringExp){
     byte num = buttonPressed_M;
     if (buttonStates_M[num] == HIGH){
         totalPresses_M++;

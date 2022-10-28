@@ -30,7 +30,6 @@ class HardwareControl{
         void CheckForPress(bool duringExp);
         byte * GetButtonStates();
         void SetLastButtonStates();
-        void SetLEDstates(byte * LEDstates);
         void SetTarget(byte * targetArray, byte targetNumber);
         bool GetReady();
         void Waiting(bool duringExp);
@@ -51,7 +50,8 @@ class HardwareControl{
         bool  readyForNext_M = true;
         bool  correctButtonPressed = false;
         byte  currentTarget_M;
-        void  ButtonPress(bool duringExp);
+        void  TargetCheck(bool duringExp);
+        void  SetLEDstates(byte * LEDstates);
 
 };
 

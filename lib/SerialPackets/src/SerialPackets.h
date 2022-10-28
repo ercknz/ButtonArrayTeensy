@@ -29,6 +29,7 @@ class SerialPackets{
         bool dataRequested_M = false;
         bool completeSent_M = false;
         int16_t bytesToCounts(byte hByte, byte lByte);
+        void PrintPacket4Debugging(byte * bytePacketToPrint);
 };
 
 #endif //SERIAL_COMM_H

@@ -39,11 +39,19 @@ void loop()
   previousTime = millis();
   while (!expLogic.GetExpCompletedStatus()){
     currentTime = millis();
-    // Generate Target if Experiment is running.
+
+    // Generate Target if Experiment is running and button array is ready.
     if(buttonArray.GetReady() && !expLogic.GetExpCompletedStatus()){
-      expLogic.GenerateTarget();
-      buttonArray.SetTarget(expLogic.GetTargetArray(), expLogic.GetTargetNum());
+      if(expLogic.IsCornerTarget()){
+        expLogic.GenerateCornerTarget();
+        buttonArray.SetTarget(expLogic.GetDummyTargetArray(), expLogic.GetDummyTargetNum());
+      } else {
+        expLogic.GenerateTarget();
+        buttonArray.SetTarget(expLogic.GetTargetArray(), expLogic.GetTargetNum());
+      }
     }
+
+    // Checks for presses while running.
     buttonArray.CheckForPress(expLogic.GetExpRunning() && !expLogic.GetExpCompletedStatus());
     buttonArray.SetLastButtonStates();
 
