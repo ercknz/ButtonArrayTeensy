@@ -41,29 +41,34 @@ void SerialPackets::ReadPackets(){
 void SerialPackets::SendStates(byte * targetArray, byte * buttonStates){
     byte dataPacket[_TX_PKT_LEN] = {0};
     uint16_t packetSum = 0;
+
+    // Header [175 69 80 90]
     for (int i = 0; i < 4; i++){
         dataPacket[i] = _WRITE_HEADER[i];
     }
+    // Target [T1 T2 T3 T4 T5]
     for (int i = 0; i < 5; i++){
         dataPacket[i + 4] = targetArray[i];
+        Serial.print(targetArray[i]); Serial.print(" "); // REMOVE ME!!!
     }
+    Serial.print("\t");Serial.print("\t");              // REMOVE ME!!!
+    // Button States [B0 B1 B2 B3 B4 B5]
     for (int i = 0; i < 6; i++){
         dataPacket[i + 9] = !buttonStates[i];
+        Serial.print(!buttonStates[i]); Serial.print(" "); // REMOVE ME!!!
     }
+    Serial.println("\t");                               // REMOVE ME!!!
+    // Check Sum
     for (int i = 0; i < _TX_PKT_LEN - 2; i++){
         packetSum += dataPacket[i];
     }
     dataPacket[_TX_PKT_LEN - 2] = floor(packetSum / 256);
     dataPacket[_TX_PKT_LEN - 1] = floor(packetSum % 256);
-    for (int i = 0; i < _TX_PKT_LEN; i++){
-        serialPort_M -> write(dataPacket[i]);
-    }
 
+    // Packet Write
     for (int i = 0; i < _TX_PKT_LEN; i++){
-        // serialPort_M -> write(dataPacket[i]);
-        Serial.print(dataPacket[i]); Serial.print('/t');
+        // serialPort_M -> write(dataPacket[i]);        // FIX ME!!
     }
-    Serial.println(' ');
     dataRequested_M = false;
 
 }
@@ -81,10 +86,8 @@ void SerialPackets::SendStart(){
     dataPacket[_TX_PKT_LEN - 2] = floor(packetSum / 256);
     dataPacket[_TX_PKT_LEN - 1] = floor(packetSum % 256);
     for (int i = 0; i < _TX_PKT_LEN; i++){
-        // serialPort_M -> write(dataPacket[i]);
-        Serial.print(dataPacket[i]); Serial.print('/t');
+        serialPort_M -> write(dataPacket[i]);
     } 
-    Serial.println(' ');
 }
 
 void SerialPackets::SendComplete(){
@@ -100,10 +103,8 @@ void SerialPackets::SendComplete(){
     dataPacket[_TX_PKT_LEN - 2] = floor(packetSum / 256);
     dataPacket[_TX_PKT_LEN - 1] = floor(packetSum % 256);
     for (int i = 0; i < _TX_PKT_LEN; i++){
-        // serialPort_M -> write(dataPacket[i]);
-        Serial.print(dataPacket[i]); Serial.print('/t');
+        serialPort_M -> write(dataPacket[i]);
     }
-    Serial.println(' ');
     completeSent_M = true;
 }
         
@@ -118,7 +119,7 @@ int16_t SerialPackets::bytesToCounts(byte hByte, byte lByte) {
 
 void SerialPackets::PrintPacket4Debugging(byte * bytePacketToPrint){
     for (int i = 0; i < _TX_PKT_LEN; i++){
-        Serial.print(bytePacketToPrint[i]); Serial.print('/t');
+        Serial.print(bytePacketToPrint[i]); Serial.print("\t");
     } 
-    Serial.println(' ');
+    Serial.println(" ");
 }

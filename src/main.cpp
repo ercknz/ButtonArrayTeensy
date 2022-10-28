@@ -42,17 +42,20 @@ void loop()
 
     // Generate Target if Experiment is running and button array is ready.
     if(buttonArray.GetReady() && !expLogic.GetExpCompletedStatus()){
+      Serial.println("Ready for target!!!!");
       if(expLogic.IsCornerTarget()){
+        Serial.println("NEW CORNER!!!!");
         expLogic.GenerateCornerTarget();
         buttonArray.SetTarget(expLogic.GetDummyTargetArray(), expLogic.GetDummyTargetNum());
       } else {
+        Serial.println("GETTING NEW TARGET!!!!");
         expLogic.GenerateTarget();
         buttonArray.SetTarget(expLogic.GetTargetArray(), expLogic.GetTargetNum());
       }
     }
 
     // Checks for presses while running.
-    buttonArray.CheckForPress(expLogic.GetExpRunning() && !expLogic.GetExpCompletedStatus());
+    buttonArray.CheckForPress(expLogic.GetExpRunning() && !expLogic.GetExpCompletedStatus()); // LOOK HERE !!!
     buttonArray.SetLastButtonStates();
 
     // Wait for 8ms to send packets.

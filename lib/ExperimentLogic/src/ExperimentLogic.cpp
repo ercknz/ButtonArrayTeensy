@@ -117,4 +117,5 @@ void ExperimentLogic::GenerateCornerTarget(){
         dummyTargetArray_M[i] = 0;
     }
     dummyTargetArray_M[dummyTarget_M - 1] = 1;
+    cornerTarget_M = false;
 }
