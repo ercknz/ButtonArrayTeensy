@@ -3,7 +3,6 @@
 
 SerialPackets::SerialPackets(usb_serial_class * ptrSer){
     serialPort_M = ptrSer;
-    //serialPort_M -> begin(_BAUDRATE);
 }
 
 bool SerialPackets::CheckForRequest(){
@@ -49,15 +48,11 @@ void SerialPackets::SendStates(byte * targetArray, byte * buttonStates){
     // Target [T1 T2 T3 T4 T5]
     for (int i = 0; i < 5; i++){
         dataPacket[i + 4] = targetArray[i];
-        Serial.print(targetArray[i]); Serial.print(" "); // REMOVE ME!!!
     }
-    Serial.print("\t");Serial.print("\t");              // REMOVE ME!!!
     // Button States [B0 B1 B2 B3 B4 B5]
     for (int i = 0; i < 6; i++){
         dataPacket[i + 9] = !buttonStates[i];
-        Serial.print(!buttonStates[i]); Serial.print(" "); // REMOVE ME!!!
     }
-    Serial.println("\t");                               // REMOVE ME!!!
     // Check Sum
     for (int i = 0; i < _TX_PKT_LEN - 2; i++){
         packetSum += dataPacket[i];

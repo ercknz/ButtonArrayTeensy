@@ -31,7 +31,7 @@ class HardwareControl{
         byte * GetButtonStates();
         void SetLastButtonStates();
         void SetTarget(byte * targetArray, byte targetNumber);
-        bool GetReady();
+        bool IsReady();
         void Waiting(bool duringExp);
         bool GetCorrectButton();
     
@@ -52,6 +52,7 @@ class HardwareControl{
         byte  currentTarget_M;
         void  TargetCheck(bool duringExp);
         void  SetLEDstates(byte * LEDstates);
+        int  cornerCounter_M = 0;
 
 };
 

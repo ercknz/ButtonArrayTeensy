@@ -53,6 +53,8 @@ void HardwareControl::SetLEDstates(byte * LEDstates){
 }
 
 void HardwareControl::SetTarget(byte * targetArray, byte targetNum){
+    Serial.println(targetNum);
+    if (targetNum != 3) cornerCounter_M += 1;
     targetAvailable_M = true;
     currentTarget_M = targetNum;
     byte LEDarray[6];
@@ -69,7 +71,7 @@ void HardwareControl::SetTarget(byte * targetArray, byte targetNum){
     SetLEDstates(LEDarray);
 }
 
-bool HardwareControl::GetReady(){
+bool HardwareControl::IsReady(){
     return readyForNext_M && !targetAvailable_M;
 }
 
@@ -85,9 +87,16 @@ void HardwareControl::TargetCheck(bool duringExp){
                 digitalWrite(_LED_pins[num],LOW);
                 targetAvailable_M = false;
                 readyForNext_M = true;
+                cornerCounter_M = 0;
             } else {
                 digitalWrite(_LED_pins[num],LOW);
-                Waiting(duringExp);
+                if (cornerCounter_M == 1){
+                    targetAvailable_M = false;
+                    readyForNext_M = true;
+                } else {
+                    cornerCounter_M = 0;
+                    Waiting(duringExp);
+                }
             }
         } 
     } 
@@ -101,6 +110,10 @@ void HardwareControl::Waiting(bool duringExp){
         SetTarget(_standbyTarget,_resetButton);
     }
 }
+
+//void HardwareControl::SetDummy(){
+
+//}
 
 bool HardwareControl::GetCorrectButton(){
     return correctButtonPressed;
