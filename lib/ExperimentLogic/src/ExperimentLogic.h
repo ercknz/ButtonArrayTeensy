@@ -31,7 +31,7 @@ class ExperimentLogic{
 
     private:
         const byte numOfTargets_M = 10;
-        const byte maxReps_M    = 1;
+        const byte maxReps_M    = 5;
         const byte maxTarget_M = 10;
         const byte minTarget_M = 1;
         byte numOfReps_M[10] = {0};

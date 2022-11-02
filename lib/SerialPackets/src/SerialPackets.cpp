@@ -62,10 +62,9 @@ void SerialPackets::SendStates(byte * targetArray, byte * buttonStates){
 
     // Packet Write
     for (int i = 0; i < _TX_PKT_LEN; i++){
-        // serialPort_M -> write(dataPacket[i]);        // FIX ME!!
+        serialPort_M -> write(dataPacket[i]);
     }
     dataRequested_M = false;
-
 }
 
 void SerialPackets::SendStart(){
@@ -110,11 +109,4 @@ bool SerialPackets::GetCompleteSent(){
 int16_t SerialPackets::bytesToCounts(byte hByte, byte lByte) {
   int16_t decimal = hByte * 256 + lByte;
   return decimal;
-}
-
-void SerialPackets::PrintPacket4Debugging(byte * bytePacketToPrint){
-    for (int i = 0; i < _TX_PKT_LEN; i++){
-        Serial.print(bytePacketToPrint[i]); Serial.print("\t");
-    } 
-    Serial.println(" ");
 }

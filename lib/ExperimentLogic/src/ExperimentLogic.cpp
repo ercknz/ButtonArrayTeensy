@@ -3,6 +3,7 @@
 ExperimentLogic::ExperimentLogic(){
     // Fill in dummy target
     numOfReps_M[7] = maxReps_M;
+    totalReps_M = maxReps_M;
 }
 
 void ExperimentLogic::SetExpRunning(){

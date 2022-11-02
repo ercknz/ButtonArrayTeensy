@@ -61,12 +61,13 @@ void loop()
       serialToPC.SendStates(expLogic.GetTargetArray(), buttonArray.GetButtonStates());
     }
   }
-
+  
   // Check to see if experiment is done.
   while(expLogic.GetExpCompletedStatus()){
     if(!serialToPC.GetCompleteSent()){
       buttonArray.Waiting(!expLogic.GetExpCompletedStatus());
       serialToPC.SendComplete();
     }
+    delay(5000);
   }
 }

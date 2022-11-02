@@ -53,7 +53,6 @@ void HardwareControl::SetLEDstates(byte * LEDstates){
 }
 
 void HardwareControl::SetTarget(byte * targetArray, byte targetNum){
-    Serial.println(targetNum);
     if (targetNum != 3) cornerCounter_M += 1;
     targetAvailable_M = true;
     currentTarget_M = targetNum;
@@ -110,10 +109,6 @@ void HardwareControl::Waiting(bool duringExp){
         SetTarget(_standbyTarget,_resetButton);
     }
 }
-
-//void HardwareControl::SetDummy(){
-
-//}
 
 bool HardwareControl::GetCorrectButton(){
     return correctButtonPressed;
