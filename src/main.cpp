@@ -1,9 +1,11 @@
 /**
  * Physical Button Array Logic 
  * 5 targets and reset button with LEDs and push buttons.
+ * Adding 4 switches to test grasping
  * 
  * Code by Erick Nunez
  * created 11/8/2021
+ * Updated 10/31/2024
  */
 #include "Arduino.h"
 #include "HardwareControl.h"
@@ -16,15 +18,18 @@ SerialPackets   serialToPC = SerialPackets(&Serial);
 
 void setup()
 {
+  // Setup Pins
   buttonArray.SetupPins();
   while(!Serial){}
   delay(1000);
+  // Waiting on comm
   buttonArray.Waiting(expLogic.GetExpRunning());
   delay(1000);
   while(!expLogic.GetExpRunning()){
     buttonArray.CheckForPress(expLogic.GetExpRunning());
     buttonArray.SetLastButtonStates();
     if(buttonArray.GetCorrectButton()){
+      // Trigger received, start streaming
       expLogic.SetExpRunning();
       serialToPC.SendStart();
     }
@@ -37,6 +42,7 @@ void loop()
   const int LOOPTIME = 8;
 
   previousTime = millis();
+  // Main Loop
   while (!expLogic.GetExpCompletedStatus()){
     currentTime = millis();
 
