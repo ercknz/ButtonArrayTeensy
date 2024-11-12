@@ -25,6 +25,11 @@ void setup()
   // Waiting on comm
   buttonArray.Waiting(expLogic.GetExpRunning());
   delay(1000);
+  while(!serialToPC.DataAvailable()){}
+  serialToPC.ReadPackets();
+  expLogic.SetMaxReps(serialToPC.GetRequestedReps());
+  buttonArray.SetMode(serialToPC.GetRequestedMode());
+  delay(1000)
   while(!expLogic.GetExpRunning()){
     buttonArray.CheckForPress(expLogic.GetExpRunning());
     buttonArray.SetLastButtonStates();
@@ -50,10 +55,10 @@ void loop()
     if(buttonArray.IsReady() && !expLogic.GetExpCompletedStatus()){
       if(expLogic.IsCornerTarget()){
         expLogic.GenerateCornerTarget();
-        buttonArray.SetTarget(expLogic.GetDummyTargetArray(), expLogic.GetDummyTargetNum());
+        buttonArray.SetButtonTarget(expLogic.GetDummyTargetArray(), expLogic.GetDummyTargetNum());
       } else {
         expLogic.GenerateTarget();
-        buttonArray.SetTarget(expLogic.GetTargetArray(), expLogic.GetTargetNum());
+        buttonArray.SetButtonTarget(expLogic.GetTargetArray(), expLogic.GetTargetNum());
       }
     }
 

@@ -10,6 +10,30 @@ void ExperimentLogic::SetExpRunning(){
     expStarted_M = true;
 }
 
+void ExperimentLogic::SetMaxReps(byte numberOfReps){
+    maxReps_M = numberOfReps;
+}
+
+// void ExperimentLogic::SetMode(byte modeNumber){
+//     experimentMode_M = modeNumber;    
+//     if (modeNumber == 0){
+//         numOfReps_M[7] = maxReps_M;
+//         totalReps_M = maxReps_M;
+//         for (int i = 10; i < 20; i++){
+//              numOfReps_M[i] = maxReps_M;
+//              totalReps_M += maxReps_M;
+//         }
+//     }
+//     if (modeNumber == 1){
+//         numOfReps_M[17] = maxReps_M;
+//         totalReps_M = maxReps_M;
+//         for (int i = 0; i < 10; i++){
+//              numOfReps_M[i] = maxReps_M;
+//              totalReps_M += maxReps_M;
+//         }
+//     }
+// }
+
 bool ExperimentLogic::GetExpRunning(){
     return expStarted_M;
 }

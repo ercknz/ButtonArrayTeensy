@@ -5,19 +5,31 @@ SerialPackets::SerialPackets(usb_serial_class * ptrSer){
     serialPort_M = ptrSer;
 }
 
-bool SerialPackets::CheckForRequest(){
-    if (serialPort_M -> available()){
-        ReadPackets();
-    }
-    return dataRequested_M;
+bool SerialPackets::DataAvailable(){
+    return serialPort_M->available();
 }
+
+byte SerialPackets::GetRequestedMode(){
+    return requestedMode_M;
+}
+
+byte SerialPackets::GetRequestedReps(){
+    return requestedReps_M;
+}
+
+// bool SerialPackets::CheckForRequest(){
+//     if (serialPort_M -> available()){
+//         ReadPackets();
+//     }
+//     return dataRequested_M;
+// }
 
 void SerialPackets::ReadPackets(){
     byte RXPacket[_RX_PKT_LEN];
     byte tempHeader[4];
     int16_t SumCheck;
     int16_t CHECKSUM;
-    dataRequested_M = false;
+    //dataRequested_M = false;
     while (serialPort_M->available() < _RX_PKT_LEN){}
     for (int i = 0; i < _RX_PKT_LEN; i++){
         RXPacket[i] = serialPort_M -> read();
@@ -32,7 +44,9 @@ void SerialPackets::ReadPackets(){
     }
     if (SumCheck == CHECKSUM){
         if (memcmp(_REQUEST_HEADER, tempHeader, sizeof(_REQUEST_HEADER)) == 0){
-            dataRequested_M = true;
+            //dataRequested_M = true;
+            requestedMode_M = RXPacket[4];
+            requestedReps_M = RXPacket[5];
         }
     }
 }
@@ -45,13 +59,13 @@ void SerialPackets::SendStates(byte * targetArray, byte * buttonStates){
     for (int i = 0; i < 4; i++){
         dataPacket[i] = _WRITE_HEADER[i];
     }
-    // Target [T1 T2 T3 T4 T5]
-    for (int i = 0; i < 5; i++){
+    // Target [T1 T2 T3 T4 T5 T6 T7 T8 T9]
+    for (int i = 0; i < 9; i++){
         dataPacket[i + 4] = targetArray[i];
     }
-    // Button States [B0 B1 B2 B3 B4 B5]
-    for (int i = 0; i < 6; i++){
-        dataPacket[i + 9] = !buttonStates[i];
+    // Button States [B0 B1 B2 B3 B4 B5 S1 S2 S3 S4]
+    for (int i = 0; i < 10; i++){
+        dataPacket[i + 13] = !buttonStates[i];
     }
     // Check Sum
     for (int i = 0; i < _TX_PKT_LEN - 2; i++){
@@ -64,7 +78,7 @@ void SerialPackets::SendStates(byte * targetArray, byte * buttonStates){
     for (int i = 0; i < _TX_PKT_LEN; i++){
         serialPort_M -> write(dataPacket[i]);
     }
-    dataRequested_M = false;
+    //dataRequested_M = false;
 }
 
 void SerialPackets::SendStart(){

@@ -6,6 +6,9 @@
  * The target array is set up the following way:
  * numOfReps = [1CW 2CW 3 4CW 5CW 1CCW 2CCW 3(dummy) 4CCW 5CCW]
  * 
+ * numOfReps = [1CW-B 2CW-B 3 4CW-B 5CW-B 1CCW-B 2CCW-B 3(Dummy) 4CCW-B 5CCW-B ... 
+ *              6CW-S 7CW-S 3 8CW-S 9CW-S 6CCW-S 7CCW-S 3(Dummy) 8CCW-S 9CCW-S]
+ * 
  * Coded by Erick Nunez
  * Created 11/17/2021
  */
@@ -28,10 +31,13 @@ class ExperimentLogic{
         void GenerateCornerTarget();
         byte * GetDummyTargetArray();
         byte GetDummyTargetNum();
+        void SetMaxReps(byte numberOfReps);
+        //void SetMode(byte modeNumber);
 
     private:
+        byte experimentMode_M = 0;
+        byte maxReps_M    = 1;
         const byte numOfTargets_M = 10;
-        const byte maxReps_M    = 5;
         const byte maxTarget_M = 10;
         const byte minTarget_M = 1;
         byte numOfReps_M[10] = {0};

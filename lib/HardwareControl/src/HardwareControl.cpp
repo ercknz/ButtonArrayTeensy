@@ -6,7 +6,7 @@ HardwareControl::HardwareControl(){
 
 void HardwareControl::SetupPins(){
     for(int i = 0; i < 6; i++){
-        pinMode(_LED_pins[i], OUTPUT);
+        pinMode(_buttonLED_pins[i], OUTPUT);
         pinMode(_button_pins[i], INPUT_PULLUP);
     }
 }
@@ -31,8 +31,16 @@ void HardwareControl::CheckForPress(bool duringExp){
     }
 }
 
+void HardwareControl::CheckForGrip(bool duringExp){
+
+}
+
 byte * HardwareControl::GetButtonStates(){
     return buttonStates_M;
+}
+
+byte * HardwareControl::GetSwitchStates(){
+
 }
 
 void HardwareControl::SetLastButtonStates(){
@@ -41,18 +49,26 @@ void HardwareControl::SetLastButtonStates(){
     }
 }
 
-void HardwareControl::SetLEDstates(byte * LEDstates){
+void HardwareControl::SetLastSwitchStates(){
+
+}
+
+void HardwareControl::SetButtonLEDstates(byte * LEDstates){
     for (int i = 0; i < 6; i++){
-        LEDstates_M[i] = LEDstates[i];
+        ButtonLEDstates_M[i] = LEDstates[i];
         if (LEDstates[i]){
-            digitalWrite(_LED_pins[i], HIGH);
+            digitalWrite(_buttonLED_pins[i], HIGH);
         } else {
-            digitalWrite(_LED_pins[i], LOW);
+            digitalWrite(_buttonLED_pins[i], LOW);
         }
     }
 }
 
-void HardwareControl::SetTarget(byte * targetArray, byte targetNum){
+void HardwareControl::SetSwitchLEDstates(byte * LEDstates){
+
+}
+
+void HardwareControl::SetButtonTarget(byte * targetArray, byte targetNum){
     if (targetNum != 3) cornerCounter_M += 1;
     targetAvailable_M = true;
     currentTarget_M = targetNum;
@@ -67,7 +83,11 @@ void HardwareControl::SetTarget(byte * targetArray, byte targetNum){
     if (!targetNum){
         LEDarray[0] = 1;
     }
-    SetLEDstates(LEDarray);
+    SetButtonLEDstates(LEDarray);
+}
+
+void HardwareControl::SetSwitchTarget(byte * targetArray, byte targetNum){
+   
 }
 
 bool HardwareControl::IsReady(){
@@ -83,12 +103,12 @@ void HardwareControl::TargetCheck(bool duringExp){
                 if(!correctButtonPressed){
                     correctButtonPressed = true;
                 }
-                digitalWrite(_LED_pins[num],LOW);
+                digitalWrite(_buttonLED_pins[num],LOW);
                 targetAvailable_M = false;
                 readyForNext_M = true;
                 cornerCounter_M = 0;
             } else {
-                digitalWrite(_LED_pins[num],LOW);
+                digitalWrite(_buttonLED_pins[num],LOW);
                 if (cornerCounter_M == 1){
                     targetAvailable_M = false;
                     readyForNext_M = true;
@@ -104,12 +124,16 @@ void HardwareControl::TargetCheck(bool duringExp){
 
 void HardwareControl::Waiting(bool duringExp){
     if(duringExp){
-        SetTarget(_resetTarget, _resetButton);
+        SetButtonTarget(_resetButtonTarget, _resetButton);
     } else {
-        SetTarget(_standbyTarget,_resetButton);
+        SetButtonTarget(_standbyButtonTarget,_resetButton);
     }
 }
 
 bool HardwareControl::GetCorrectButton(){
     return correctButtonPressed;
+}
+
+bool HardwareControl::GetCorrectSwitch(){
+
 }
