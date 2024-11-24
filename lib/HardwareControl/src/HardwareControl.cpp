@@ -136,5 +136,4 @@ void HardwareControl::SetMode(byte modeToSet){
             break;
         }
     }
-    Serial.print(modeToSet);
 }

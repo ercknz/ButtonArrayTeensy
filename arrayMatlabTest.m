@@ -2,7 +2,7 @@
 clear; clc;
 
 %% Experment Parameters
-modeValue = 1;
+modeValue = 2;
 totalRepsValue = 2;
 
 %% Serial port 

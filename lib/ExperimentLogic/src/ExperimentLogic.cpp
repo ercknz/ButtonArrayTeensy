@@ -16,7 +16,6 @@ void ExperimentLogic::SetMaxReps(byte numberOfReps){
         // Modify reps for experiment
         numOfReps_M[7] = numberOfReps;
         totalReps_M = numberOfReps;
-        Serial.print(numberOfReps);
     }
 }
 
