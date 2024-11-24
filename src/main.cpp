@@ -21,10 +21,7 @@ void setup()
   // Setup Pins
   buttonArray.SetupPins();
   while(!Serial){}
-  delay(1000);
-  // Waiting on comm
-  buttonArray.Waiting(expLogic.GetExpRunning());
-  delay(1000);
+  delay(100);
   // Wait for experiment setup packet
   while(!serialToPC.GoodSetupRX()){
     serialToPC.ReadPackets();
@@ -33,7 +30,10 @@ void setup()
   // Set experiment parameters
   buttonArray.SetMode(serialToPC.GetRequestedMode());
   expLogic.SetMaxReps(serialToPC.GetRequestedReps());
-  delay(1000);
+  delay(100);
+  // Waiting on comm
+  buttonArray.Waiting(expLogic.GetExpRunning());
+  delay(100);
   // Wait on Start
   while(!expLogic.GetExpRunning()){
     buttonArray.CheckForTrigger(expLogic.GetExpRunning());
@@ -44,7 +44,7 @@ void setup()
       serialToPC.SendStart();
     }
   }
-  Serial.print(9);
+  //Serial.print(9);
 }
 
 void loop()
