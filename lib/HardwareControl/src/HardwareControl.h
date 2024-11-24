@@ -36,45 +36,40 @@ class HardwareControl{
     public:
         HardwareControl();
         void SetupPins();
-        void CheckForPress(bool duringExp);
-        void CheckForGrip(bool duringExp);
-        byte * GetButtonStates();
-        byte * GetSwitchStates();
-        void SetLastButtonStates();
-        void SetLastSwitchStates();
-        void SetButtonTarget(byte * targetArray, byte targetNumber);
-        void SetSwitchTarget(byte * targetArray, byte targetNumber);
+        void CheckForTrigger(bool duringExp);
+        byte * GetArrayStates();
+        void SetLastArrayStates();
+        void SetTarget(byte * targetArray, byte targetNumber);
         bool IsReady();
         void Waiting(bool duringExp);
-        bool GetCorrectButton();
-        bool GetCorrectSwitch();
+        bool GetCorrectTarget();
+        void SetMode(byte modeToSet);
     
     private:
         byte _resetButton = 0;
-        byte _resetButtonTarget[6] = {0};
-        byte _resetSwitchTarget[4] = {0};
-        byte _standbyButtonTarget[6] = {1};
-        byte _standbySwitchTarget[4] = {1};
-        const int _button_pins[6]  = { 2, 3, 4, 5, 6, 7};
-        const int _switch_pins[4]  = { 8, 9, 10, 11};
-        const int _buttonLED_pins[6] = {23,22,21,20,19,18};
-        const int _switchLED_pins[4] = { 17, 16, 15, 14};
-        byte  ButtonLEDstates_M[6] = {0};
-        byte  SwitchLEDstates_M[4] = {0};
-        int   totalPresses_M       = 0;
-        byte  buttonStates_M[6]    = {1};
-        byte  switchStates_M[4]    = {1};
-        byte  lastButtonStates_M[6] = {1};
-        byte  lastSwitchStates_M[4] = {1};
-        byte  buttonPressed_M;
+        byte _resetTargets[6] = {0};
+        byte _standbyTargets[6] = {1};
+        const int _setupButtonSwitchPins[10] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
+        const int _setupLEDPins[10] = {23, 22, 21, 20, 19, 18, 17, 16, 15, 14};
+        int _buttonModePins[6]  = { 2, 3, 4, 5, 6, 7};
+        int _switchModePins[6]  = { 2, 8, 9, 5, 10, 11};
+        int _buttonModeLED_pins[6] = {23, 22, 21, 20, 19, 18};
+        int _switchModeLED_pins[6] = {23, 17, 16, 20, 15, 14};
+        int   activeLED_pins[6];            // = _LED_pins
+        int   activeTrigger_pins[6];        // = _button_pins
+        byte  TargetLEDstates_M[6] = {0};   // = LEDstates_M
+        int   totalTriggers_M       = 0;    // = totalPresses_M
+        byte  arrayStates_M[6]    = {1};    // = buttonStates_M
+        byte  lastArrayStates_M[6] = {1};   // = lastButtonStates_M
+        byte  targetTriggered_M;            // = buttonPressed_M
         bool  targetAvailable_M = false;
         bool  readyForNext_M = true;
-        bool  correctButtonPressed = false;
+        bool  correctTriggered = false;     // = correctButtonPressed
         byte  currentTarget_M;
         void  TargetCheck(bool duringExp);
-        void  SetButtonLEDstates(byte * LEDstates);
-        void  SetSwitchLEDstates(byte * LEDstates);
+        void  SetLEDstates(byte * LEDstates);
         int   cornerCounter_M = 0;
+        byte  arrayMode_M;
 
 };
 

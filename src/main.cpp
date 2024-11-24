@@ -25,20 +25,26 @@ void setup()
   // Waiting on comm
   buttonArray.Waiting(expLogic.GetExpRunning());
   delay(1000);
-  while(!serialToPC.DataAvailable()){}
-  serialToPC.ReadPackets();
-  expLogic.SetMaxReps(serialToPC.GetRequestedReps());
+  // Wait for experiment setup packet
+  while(!serialToPC.GoodSetupRX()){
+    serialToPC.ReadPackets();
+    delay(100);
+  }
+  // Set experiment parameters
   buttonArray.SetMode(serialToPC.GetRequestedMode());
-  delay(1000)
+  expLogic.SetMaxReps(serialToPC.GetRequestedReps());
+  delay(1000);
+  // Wait on Start
   while(!expLogic.GetExpRunning()){
-    buttonArray.CheckForPress(expLogic.GetExpRunning());
-    buttonArray.SetLastButtonStates();
-    if(buttonArray.GetCorrectButton()){
+    buttonArray.CheckForTrigger(expLogic.GetExpRunning());
+    buttonArray.SetLastArrayStates();
+    if(buttonArray.GetCorrectTarget()){
       // Trigger received, start streaming
       expLogic.SetExpRunning();
       serialToPC.SendStart();
     }
   }
+  Serial.print(9);
 }
 
 void loop()
@@ -55,21 +61,21 @@ void loop()
     if(buttonArray.IsReady() && !expLogic.GetExpCompletedStatus()){
       if(expLogic.IsCornerTarget()){
         expLogic.GenerateCornerTarget();
-        buttonArray.SetButtonTarget(expLogic.GetDummyTargetArray(), expLogic.GetDummyTargetNum());
+        buttonArray.SetTarget(expLogic.GetDummyTargetArray(), expLogic.GetDummyTargetNum());
       } else {
         expLogic.GenerateTarget();
-        buttonArray.SetButtonTarget(expLogic.GetTargetArray(), expLogic.GetTargetNum());
+        buttonArray.SetTarget(expLogic.GetTargetArray(), expLogic.GetTargetNum());
       }
     }
 
     // Checks for presses while running.
-    buttonArray.CheckForPress(expLogic.GetExpRunning() && !expLogic.GetExpCompletedStatus());
-    buttonArray.SetLastButtonStates();
+    buttonArray.CheckForTrigger(expLogic.GetExpRunning() && !expLogic.GetExpCompletedStatus());
+    buttonArray.SetLastArrayStates();
 
     // Wait for 8ms to send packets.
     if(currentTime - previousTime >= LOOPTIME){
       previousTime = currentTime;
-      serialToPC.SendStates(expLogic.GetTargetArray(), buttonArray.GetButtonStates());
+      serialToPC.SendStates(expLogic.GetTargetArray(), buttonArray.GetArrayStates());
     }
   }
   

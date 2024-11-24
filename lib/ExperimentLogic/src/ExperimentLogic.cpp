@@ -11,28 +11,14 @@ void ExperimentLogic::SetExpRunning(){
 }
 
 void ExperimentLogic::SetMaxReps(byte numberOfReps){
-    maxReps_M = numberOfReps;
+    if (maxReps_M != numberOfReps){
+        maxReps_M = numberOfReps;
+        // Modify reps for experiment
+        numOfReps_M[7] = numberOfReps;
+        totalReps_M = numberOfReps;
+        Serial.print(numberOfReps);
+    }
 }
-
-// void ExperimentLogic::SetMode(byte modeNumber){
-//     experimentMode_M = modeNumber;    
-//     if (modeNumber == 0){
-//         numOfReps_M[7] = maxReps_M;
-//         totalReps_M = maxReps_M;
-//         for (int i = 10; i < 20; i++){
-//              numOfReps_M[i] = maxReps_M;
-//              totalReps_M += maxReps_M;
-//         }
-//     }
-//     if (modeNumber == 1){
-//         numOfReps_M[17] = maxReps_M;
-//         totalReps_M = maxReps_M;
-//         for (int i = 0; i < 10; i++){
-//              numOfReps_M[i] = maxReps_M;
-//              totalReps_M += maxReps_M;
-//         }
-//     }
-// }
 
 bool ExperimentLogic::GetExpRunning(){
     return expStarted_M;
@@ -95,7 +81,7 @@ bool ExperimentLogic::IsCornerTarget(){
 }
 
 void ExperimentLogic::GenerateCornerTarget(){
-    // depending on target, generate next press
+    // depending on current target, generates next target
     switch (trueTarget_M){
         case 1:
         {

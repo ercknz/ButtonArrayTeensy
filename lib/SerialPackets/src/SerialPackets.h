@@ -21,6 +21,7 @@ class SerialPackets{
         bool GetCompleteSent();
         byte GetRequestedMode();
         byte GetRequestedReps();
+        bool GoodSetupRX();
 
     private:
         usb_serial_class * serialPort_M;
@@ -34,6 +35,7 @@ class SerialPackets{
         int16_t bytesToCounts(byte hByte, byte lByte);
         byte requestedMode_M = 0;
         byte requestedReps_M = 0;
+        bool goodSetup_M = false;
 };
 
 #endif //SERIAL_COMM_H

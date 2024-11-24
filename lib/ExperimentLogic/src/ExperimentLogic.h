@@ -32,22 +32,21 @@ class ExperimentLogic{
         byte * GetDummyTargetArray();
         byte GetDummyTargetNum();
         void SetMaxReps(byte numberOfReps);
-        //void SetMode(byte modeNumber);
 
     private:
-        byte experimentMode_M = 0;
-        byte maxReps_M    = 1;
-        const byte numOfTargets_M = 10;
-        const byte maxTarget_M = 10;
-        const byte minTarget_M = 1;
-        byte numOfReps_M[10] = {0};
-        byte totalReps_M = 0;
+        byte experimentMode_M       = 0;
+        byte maxReps_M              = 1;
+        const byte numOfTargets_M   = 10;
+        const byte maxTarget_M      = 10;
+        const byte minTarget_M      = 1;
+        byte numOfReps_M[10]        = {0};
+        byte totalReps_M            = 0;
         byte targetArray_M[5];
         byte LEDTarget_M;
         byte dummyTargetArray_M[5];
         byte dummyTarget_M;
         byte trueTarget_M;
-        bool expStarted_M = false;
+        bool expStarted_M   = false;
         bool expCompleted_M = false;
         bool cornerTarget_M = false;
         

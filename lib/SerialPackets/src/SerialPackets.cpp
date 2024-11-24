@@ -17,6 +17,10 @@ byte SerialPackets::GetRequestedReps(){
     return requestedReps_M;
 }
 
+bool SerialPackets::GoodSetupRX(){
+    return goodSetup_M;
+}
+
 // bool SerialPackets::CheckForRequest(){
 //     if (serialPort_M -> available()){
 //         ReadPackets();
@@ -30,24 +34,32 @@ void SerialPackets::ReadPackets(){
     int16_t SumCheck;
     int16_t CHECKSUM;
     //dataRequested_M = false;
-    while (serialPort_M->available() < _RX_PKT_LEN){}
+    unsigned long timeOutTime = millis();
+    while (serialPort_M->available() < _RX_PKT_LEN){
+        if (millis() - timeOutTime > 5){
+            while(serialPort_M->available()) serialPort_M->read();
+            return;
+        }
+    }
     for (int i = 0; i < _RX_PKT_LEN; i++){
         RXPacket[i] = serialPort_M -> read();
     }
+
     CHECKSUM = bytesToCounts(RXPacket[_RX_PKT_LEN - 2], RXPacket[_RX_PKT_LEN - 1]);
     SumCheck = 0;
     for ( int i = 0; i < _RX_PKT_LEN - 2; i++){
         SumCheck += RXPacket[i];
     }
+    if (SumCheck != CHECKSUM) return;
+
     for (int i = 0; i < 4; i++){
         tempHeader[i] = RXPacket[i];
     }
-    if (SumCheck == CHECKSUM){
-        if (memcmp(_REQUEST_HEADER, tempHeader, sizeof(_REQUEST_HEADER)) == 0){
-            //dataRequested_M = true;
-            requestedMode_M = RXPacket[4];
-            requestedReps_M = RXPacket[5];
-        }
+    if (memcmp(_REQUEST_HEADER, tempHeader, sizeof(_REQUEST_HEADER)) == 0){
+        requestedMode_M = RXPacket[4];
+        requestedReps_M = RXPacket[5];
+        goodSetup_M = true;
+        return;
     }
 }
 
