@@ -59,7 +59,7 @@ void ExperimentLogic::GenerateTarget(){
     while(totalReps_M < (maxReps_M * numOfTargets_M)){
 
         // Seeds new value and generates random target
-        srand(analogRead(A0));
+        srand(analogRead(A14));     // Unused analog pin for seeding random number
         int targetNum = rand() % (maxTarget_M - minTarget_M + 1) + minTarget_M;
 
         // Checks to see if all reps for that target are completed
