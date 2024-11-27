@@ -48,7 +48,7 @@ class HardwareControl{
     private:
         byte _resetButton = 0;
         byte _resetTargets[6] = {0};
-        byte _standbyTargets[6] = {1};
+        byte _standbyTargets[6] = {1,1,1,1,1,1};
         const int _setupButtonSwitchPins[10] = {2, 3, 4, 5, 6, 7, 8, 9, 10, 11};
         const int _setupLEDPins[10] = {23, 22, 21, 20, 19, 18, 17, 16, 15, 14};
         int _buttonModePins[6]  = { 2, 3, 4, 5, 6, 7};
@@ -59,8 +59,8 @@ class HardwareControl{
         int   activeTrigger_pins[6];        // = _button_pins
         byte  TargetLEDstates_M[6] = {0};   // = LEDstates_M
         int   totalTriggers_M       = 0;    // = totalPresses_M
-        byte  arrayStates_M[6]    = {1};    // = buttonStates_M
-        byte  lastArrayStates_M[6] = {1};   // = lastButtonStates_M
+        byte  arrayStates_M[6]    = {0};    // = buttonStates_M
+        byte  lastArrayStates_M[6] = {0};   // = lastButtonStates_M
         byte  targetTriggered_M;            // = buttonPressed_M
         bool  targetAvailable_M = false;
         bool  readyForNext_M = true;

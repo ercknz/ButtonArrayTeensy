@@ -3,7 +3,7 @@ clear; clc;
 
 %% Experment Parameters
 modeValue = 1;
-totalRepsValue = 2;
+totalRepsValue = 1;
 
 %% Serial port 
 arrayPort = 'COM4';
@@ -24,7 +24,8 @@ writePacket(end) = uint8(mod(checkSum,256));
 arrayObj = serialport(arrayPort, arrayBaud, "Timeout", 5, "ByteOrder","little-endian");
 pause(1);
 write(arrayObj, writePacket,'uint8');
-% while true
+running = true;
+% while running
 %     if arrayObj.NumBytesAvailable > rxPacketlen
 %         data = read(arrayObj, rxPacketlen, "uint8");
 %         data

@@ -21,19 +21,11 @@ bool SerialPackets::GoodSetupRX(){
     return goodSetup_M;
 }
 
-// bool SerialPackets::CheckForRequest(){
-//     if (serialPort_M -> available()){
-//         ReadPackets();
-//     }
-//     return dataRequested_M;
-// }
-
 void SerialPackets::ReadPackets(){
     byte RXPacket[_RX_PKT_LEN];
     byte tempHeader[4];
     int16_t SumCheck;
     int16_t CHECKSUM;
-    //dataRequested_M = false;
     unsigned long timeOutTime = millis();
     while (serialPort_M->available() < _RX_PKT_LEN){
         if (millis() - timeOutTime > 5){
@@ -90,7 +82,6 @@ void SerialPackets::SendStates(byte * targetArray, byte * buttonStates){
     for (int i = 0; i < _TX_PKT_LEN; i++){
         serialPort_M -> write(dataPacket[i]);
     }
-    //dataRequested_M = false;
 }
 
 void SerialPackets::SendStart(){
