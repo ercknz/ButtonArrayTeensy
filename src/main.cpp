@@ -33,7 +33,7 @@ void setup()
   delay(100);
   // Waiting on comm
   buttonArray.Waiting(expLogic.GetExpRunning());
-  delay(100);
+  delay(1000);
   // Wait on Start
   while(!expLogic.GetExpRunning()){
     buttonArray.CheckForTrigger(expLogic.GetExpRunning());
@@ -44,7 +44,6 @@ void setup()
       serialToPC.SendStart();
     }
   }
-  //Serial.print(9);
 }
 
 void loop()

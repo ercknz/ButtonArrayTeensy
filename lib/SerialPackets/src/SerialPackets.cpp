@@ -63,13 +63,13 @@ void SerialPackets::SendStates(byte * targetArray, byte * buttonStates){
     for (int i = 0; i < 4; i++){
         dataPacket[i] = _WRITE_HEADER[i];
     }
-    // Target [T1 T2 T3 T4 T5 T6 T7 T8 T9]
-    for (int i = 0; i < 9; i++){
+    // Target [T1 T2 T3 T4 T5] 2-5 depend on mode
+    for (int i = 0; i < 5; i++){
         dataPacket[i + 4] = targetArray[i];
     }
-    // Button States [B0 B1 B2 B3 B4 B5 S1 S2 S3 S4]
-    for (int i = 0; i < 10; i++){
-        dataPacket[i + 13] = !buttonStates[i];
+    // Button States [B0 BS1 BS2 BS3 BS4 BS5] depending on mode
+    for (int i = 0; i < 6; i++){
+        dataPacket[i + 9] = !buttonStates[i];
     }
     // Check Sum
     for (int i = 0; i < _TX_PKT_LEN - 2; i++){

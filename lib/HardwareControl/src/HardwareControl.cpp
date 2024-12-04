@@ -22,7 +22,6 @@ void HardwareControl::CheckForTrigger(bool duringExp){
         for(int i = 0; i < 6; i++){
             if(lastArrayStates_M[i] != arrayStates_M[i]){
                 targetTriggered_M = i;
-                //Serial.print(i);
                 break;
             }
         }

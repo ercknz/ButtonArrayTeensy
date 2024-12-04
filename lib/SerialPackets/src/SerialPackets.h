@@ -28,7 +28,7 @@ class SerialPackets{
         const byte _REQUEST_HEADER[4]   = {155, 70, 69, 80};
         const byte _WRITE_HEADER[4]     = {175, 69, 80, 90};
         const int  _RX_PKT_LEN = 8;
-        const int  _TX_PKT_LEN = 25;
+        const int  _TX_PKT_LEN = 18;
         const int  _BAUDRATE = 115200;
         //bool dataRequested_M = false;
         bool completeSent_M = false;

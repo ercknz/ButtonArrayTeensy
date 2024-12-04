@@ -59,8 +59,8 @@ class HardwareControl{
         int   activeTrigger_pins[6];        // = _button_pins
         byte  TargetLEDstates_M[6] = {0};   // = LEDstates_M
         int   totalTriggers_M       = 0;    // = totalPresses_M
-        byte  arrayStates_M[6]    = {0};    // = buttonStates_M
-        byte  lastArrayStates_M[6] = {0};   // = lastButtonStates_M
+        byte  arrayStates_M[6]    = {1};    // = buttonStates_M
+        byte  lastArrayStates_M[6] = {1};   // = lastButtonStates_M
         byte  targetTriggered_M;            // = buttonPressed_M
         bool  targetAvailable_M = false;
         bool  readyForNext_M = true;
